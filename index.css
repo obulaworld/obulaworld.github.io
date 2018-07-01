@@ -1,0 +1,154 @@
+body {
+    color: #532827;
+    text-align: center;
+    width: 100%;
+}
+h5 {
+    margin: 0;
+    font-size: 50px;
+}
+
+.leftMove{
+    position: relative;
+    float: left;
+}
+.move-down{
+    margin-top: 100px;
+}
+
+.rightMove{
+    position: relative;
+    float: right;
+    margin-top: 4px;
+}
+
+.container {
+    width: 100%;
+    text-align: center;
+}
+h1 {
+    margin: 0 0 20px;
+    padding: 0 0 20px;
+    border-bottom: solid 1px #ddd;
+}
+.listDisplay {
+    position: relative;
+    margin-top: -35px;
+    float: right;
+    margin-right: 30px;
+}
+
+button {
+    border: none;
+    background: #6c2726;
+    color: white;
+    border-bottom: solid 4px #222;
+    font-size: 18px;
+    padding: 20px 30px;
+    cursor: pointer;
+}
+
+.remove-button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 1.42857143;
+    width: 80px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+}
+#currency-from{
+    padding: 8px;
+    border: 0px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+    margin-left: 5px;
+}
+
+#currency2{
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+#currency-to{
+    margin-top: 1px;
+    margin-left: 5px;
+    padding: 8px;
+    border: 0px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.go-down{
+    margin-bottom: 50px;
+}
+
+.main {
+    position: relative;
+    margin-left: 400px;
+    width: 610px;
+    text-align: center;
+}
+
+form input {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-top: 4px;
+}
+table {
+    width: 100%;
+    border: 0px solid #ddd;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-spacing: 0;
+    border-collapse: collapse;
+    display: table;
+    border-color: grey;
+}
+
+button:hover {
+    background: #fff;
+    color: black;
+    border-left-color: #6c2726;
+    border-bottom-color: #111;
+}
+
+button:active {
+    position: relative;
+    top: 2px;
+}
+
+#total {
+    font-size: 50px;
+    word-break: break-all;
+}
+#total-label {
+    content: "Sub Total:";
+    margin-top: 10px;
+    font-size: 14px;
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+form {
+    text-align: left;
+}
+
+td {
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+    word-break: break-all;
+}
+
+form label {
+    display: table;
+    font-weight: bold;
+    margin: 10px 0;
+}

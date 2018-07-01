@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Alc Project</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="container">
+    <h1>Currency Converter</h1>
+    <div class="main" align="center">
+        <form action="#">
+
+            <div align="center" class="go-down">
+                <div class="rightMove ">
+                    <label for="currency-to">To:</label>
+                    <select id="currency-to" >
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div align="center">
+                <div class="rightMove ">
+                    <label for="currency-from">From:</label>
+                    <select id="currency-from">
+
+                    </select>
+                </div>
+                <div class="leftMove">
+                    <label for="currency">Amount:</label>
+                    <input type="number" id="currency">
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+        <div align="center" style="margin-top: 60px">
+            <label for="currency2">Result:</label>
+            <input type="number" id="currency2" disabled>
+        </div>
+        <div class="move-down">
+            <button onclick="convertCurrency()">Convert</button>
+            <button onclick="clearField()">Clear Field</button>
+        </div>
+    </div>
+    <br/>
+
+
+<script src="IndexController.js" type="application/javascript"></script>
+</body>
+</html>
