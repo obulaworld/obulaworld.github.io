@@ -3,6 +3,7 @@ let toCurrency;
 let amount;
 let query;
 let count = 0
+let result = null;
 
 if ('serviceWorker' in navigator) {
 
@@ -25,65 +26,77 @@ const open = indexedDB.open("currency-converter", 1);
 open.onupgradeneeded = () => {
     let db = open.result;
     let store = db.createObjectStore("currency-converter", {keyPath: "name"});
-    // let index = store.createIndex("NameIndex", ["name.currency"]);
+    let index = store.createIndex("NameIndex", ["name"]);
 };
 
 let storeData = (data,check) => {
+
     if(check){
         open.onsuccess = ((data,check) => {
-                console.log(data);
-        // Start a new transaction
-        let db = open.result;
-        let tx = db.transaction("currency-converter", "readwrite");
-        let store = tx.objectStore("currency-converter");
-        // let index = store.index("NameIndex");
-        let obj = {};
+            console.log(data);
+            // Start a new transaction
+            let db = open.result;
+            let tx = db.transaction("currency-converter", "readwrite");
+            let store = tx.objectStore("currency-converter");
+            let index = store.index("NameIndex");
 
-        let getCurrency = store.get(data);
-        let result;
-        return getCurrency.onsuccess = ()=>{
-            return getCurrency.result;
-        }
-    })(data,check);
+            let getCurrency = store.getAll();
+            getCurrency.onsuccess = function () {
+                if(getCurrency.result){
+                    for(const currency in getCurrency.result){
+                        console.log(typeof (getCurrency.result[currency].name));
+                        console.log(typeof (data));
+                        console.log(getCurrency.result[currency].name == data);
+                        if(getCurrency.result[currency].name == data){
+                            const total = parseFloat(getCurrency.result[currency].value.value) * parseFloat(amount);
+                            document.getElementById("currency2").value =total;
+                            result = true;
+                        }
+                    }
+                }else{
+                    result = false;
+                }
+            }
+        })(data,check);
     }else{
         open.onsuccess = ((data,check) => {
-                console.log(data);
-        // Start a new transaction
-        let db = open.result;
-        let tx = db.transaction("currency-converter", "readwrite");
-        let store = tx.objectStore("currency-converter");
-        // let index = store.index("NameIndex");
-        let obj = {};
+            console.log(data);
+            // Start a new transaction
+            let db = open.result;
+            let tx = db.transaction("currency-converter", "readwrite");
+            let store = tx.objectStore("currency-converter");
+            let index = store.index("NameIndex");
+            let obj = {};
 
-        for(const dt in data){
-            if(data.hasOwnProperty(dt)){
-                obj={name:dt,value:{currency:dt,value:data[dt].val}};
-                store.put(obj);
+            for(const dt in data){
+                if(data.hasOwnProperty(dt)){
+                    obj={name:dt,value:{currency:dt,value:data[dt].val}};
+                    store.put(obj);
+                }
             }
-        }
-    })(data,check);
+        })(data,check);
     }
-    console.log(open.onsuccess);
-
+    console.log('bhj',result)
+    return result;
 }
 
 let getCurrency = (() => {
-        let url = 'https://free.currencyconverterapi.com/api/v5/countries';
-fetch(url)
-    .then((response) => {
-    return response.json()
-}).then((data) => {
-    const currencies = data.results;
-for(let currency in currencies){
-    if (currencies.hasOwnProperty(currency)) {
-        document.getElementById("currency-to").innerHTML +=`<option value="${currencies[currency].currencyId}">${currencies[currency].currencyName}</option>`;
-        document.getElementById("currency-from").innerHTML +=`<option value="${currencies[currency].currencyId}">${currencies[currency].currencyName}</option>`;
-    }
-}
-})
-.catch(err =>{
-    console.log('Request failed', err)
-});
+    let url = 'https://free.currencyconverterapi.com/api/v5/countries';
+    fetch(url)
+        .then((response) => {
+            return response.json()
+        }).then((data) => {
+        const currencies = data.results;
+        for(let currency in currencies){
+            if (currencies.hasOwnProperty(currency)) {
+                document.getElementById("currency-to").innerHTML +=`<option value="${currencies[currency].currencyId}">${currencies[currency].currencyName}</option>`;
+                document.getElementById("currency-from").innerHTML +=`<option value="${currencies[currency].currencyId}">${currencies[currency].currencyName}</option>`;
+            }
+        }
+    })
+        .catch(err =>{
+            console.log('Request failed', err)
+        });
 })();
 
 let convertCurrency = () => {
@@ -101,33 +114,26 @@ let convertCurrency = () => {
     let getFromDb = storeData(query,true);
     console.log('i',getFromDb);
     if(getFromDb){
-        const total = parseFloat(getFromDb.value) * parseFloat(amount);
-        document.getElementById("currency2").value =total;
-
         return;
     }else{
         let url = 'https://free.currencyconverterapi.com/api/v5/convert?q=' + query + '&compact=y';
-
         fetch(url)
             .then((response) => {
-            return response.json()
-        }).then((data) => {
+                return response.json()
+            }).then((data) => {
             storeData(data);
-        let value = data[query].val;
-        if (value != undefined) {
-            const total = parseFloat(value) * parseFloat(amount);
-            document.getElementById("currency2").value =total;
-
-        } else {
-            const err = new Error("Value not found for " + query);
-        }
-
-    })
-    .catch(err =>{
-            console.log('Request failed', err)
-    });
+            let value = data[query].val;
+            if (value != undefined) {
+                const total = parseFloat(value) * parseFloat(amount);
+                document.getElementById("currency2").value =total;
+            } else {
+                const err = new Error("Value not found for " + query);
+            }
+        })
+            .catch(err =>{
+                console.log('Request failed', err)
+            });
     }
-
 
 }
 
